@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json.schemastore.org/mcpserver.json",
+  "name": "ShinyMediatorMcp",
+  "displayName": "Shiny Mediator Documentation",
+  "description": "MCP Server providing Shiny.Mediator documentation, code examples, and API references",
+  "version": "1.0.0",
+  "vendor": "Custom",
+  "tools": [
+    {
+      "name": "GetMediatorDocs",
+      "description": "Retrieve detailed Shiny.Mediator documentation for a specific topic"
+    },
+    {
+      "name": "ListMediatorTopics",
+      "description": "List all available Shiny.Mediator documentation topics"
+    },
+    {
+      "name": "SearchMediatorDocs",
+      "description": "Search across all documentation for a term or concept"
+    },
+    {
+      "name": "GetMediatorExample",
+      "description": "Get quick code examples for specific features"
+    }
+  ]
+}
