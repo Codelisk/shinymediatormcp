@@ -1,0 +1,3 @@
+[submodule "submodules/mediator"]
+	path = submodules/mediator
+	url = https://github.com/shinyorg/mediator.git

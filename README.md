@@ -4,31 +4,63 @@ Ein Model Context Protocol (MCP) Server, der Dokumentation und Code-Beispiele f�
 
 ## Features
 
-- **GetMediatorDocs** - Detaillierte Dokumentation zu spezifischen Themen abrufen
-- **ListMediatorTopics** - Alle verfügbaren Dokumentationsthemen auflisten
+- **GetMediatorDocs** - Dokumentation aus dem lokalen Repository abrufen (claude-skill.md, readme.md)
+- **ListMediatorTopics** - Alle verfügbaren Dokumentationsdateien auflisten
 - **SearchMediatorDocs** - Suche über die gesamte Dokumentation
-- **GetMediatorExample** - Schnelle Code-Beispiele für Features
+- **GetMediatorExample** - Code-Beispiele für Features aus der Dokumentation extrahieren
+- **ReadMediatorSource** - Quellcode-Dateien aus dem Mediator-Repository lesen
+- **ListMediatorSourceFiles** - Quellcode-Dateien im Repository durchsuchen
 
-## Verfügbare Dokumentationsthemen
+## Architektur
 
-| Kategorie | Themen |
-|-----------|--------|
-| Core | `overview`, `getting-started` |
-| Contracts | `requests`, `commands`, `events`, `streams` |
-| Middleware | `middleware`, `caching`, `offline`, `resilience`, `validation`, `http` |
-| Advanced | `context`, `source-generation`, `exception-handlers`, `advanced` |
+Das Projekt verwendet das originale [shinyorg/mediator](https://github.com/shinyorg/mediator) Repository als Git-Submodule und liest die Dokumentation und den Quellcode direkt aus den lokalen Dateien.
+
+```
+shinymediatormcp/
+├── ShinyMediatorMcp.csproj    # Projektdatei
+├── Program.cs                  # MCP Server Einstiegspunkt
+├── server.json                 # MCP Server Metadaten
+├── README.md                   # Diese Datei
+├── Tools/
+│   └── MediatorDocsTool.cs    # MCP Tools Implementation
+└── submodules/
+    └── mediator/              # Git Submodule (shinyorg/mediator)
+        ├── claude-skill.md    # Claude Skill Dokumentation
+        ├── readme.md          # Repository README
+        ├── copilot-skill.md   # Copilot Skill Dokumentation
+        └── src/               # Quellcode
+```
 
 ## Installation & Konfiguration
 
 ### Voraussetzungen
 
 - [.NET 9.0 SDK](https://dotnet.microsoft.com/download/dotnet/9.0) oder höher
+- Git (für Submodule)
 
-### Build
+### Clone & Build
 
 ```bash
-cd /home/orderlyze/dev/shinymediatormcp
+# Repository klonen mit Submodules
+git clone --recurse-submodules https://github.com/your-repo/shinymediatormcp.git
+cd shinymediatormcp
+
+# Oder bei bestehendem Clone die Submodules initialisieren
+git submodule update --init --recursive
+
+# Build
 dotnet build
+```
+
+### Submodule aktualisieren
+
+```bash
+# Auf neueste Version des Mediator-Repos aktualisieren
+cd submodules/mediator
+git pull origin main
+cd ../..
+git add submodules/mediator
+git commit -m "Update mediator submodule"
 ```
 
 ---
@@ -122,9 +154,9 @@ Nach der Installation stehen folgende Tools zur Verfügung:
 
 ### Dokumentation abrufen
 ```
-GetMediatorDocs("requests")
-GetMediatorDocs("caching")
-GetMediatorDocs("getting-started")
+GetMediatorDocs("full")      # Komplette Dokumentation
+GetMediatorDocs("skill")     # Nur claude-skill.md
+GetMediatorDocs("readme")    # Nur readme.md
 ```
 
 ### Themen auflisten
@@ -145,16 +177,10 @@ GetMediatorExample("command")
 GetMediatorExample("validation")
 ```
 
-## Projektstruktur
-
+### Quellcode lesen
 ```
-shinymediatormcp/
-├── ShinyMediatorMcp.csproj    # Projektdatei
-├── Program.cs                  # MCP Server Einstiegspunkt
-├── server.json                 # MCP Server Metadaten
-├── README.md                   # Diese Datei
-└── Tools/
-    └── MediatorDocsTool.cs    # MCP Tools Implementation
+ReadMediatorSource("src/Shiny.Mediator/IMediator.cs")
+ListMediatorSourceFiles("src/Shiny.Mediator", "cs")
 ```
 
 ## Quellen

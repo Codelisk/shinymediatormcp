@@ -31,4 +31,12 @@
     <EmbeddedResource Include="Docs\**\*.md" />
   </ItemGroup>
 
+  <!-- Exclude submodules from compilation -->
+  <ItemGroup>
+    <Compile Remove="submodules\**" />
+    <Content Remove="submodules\**" />
+    <EmbeddedResource Remove="submodules\**" />
+    <None Remove="submodules\**" />
+  </ItemGroup>
+
 </Project>
