@@ -8,7 +8,7 @@ namespace ShinyMediatorMcp.Tools;
 public static class MediatorDocsTool
 {
     private static readonly string SubmodulePath = Path.Combine(
-        AppContext.BaseDirectory, "..", "..", "..", "..", "submodules", "mediator");
+        AppContext.BaseDirectory, "..", "..", "..", "submodules", "mediator");
 
     private static readonly Lazy<string> ClaudeSkillContent = new(() =>
         LoadFileContent(Path.Combine(SubmodulePath, "claude-skill.md")));
