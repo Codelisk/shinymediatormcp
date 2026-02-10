@@ -10,14 +10,11 @@ public static class MediatorDocsTool
     private static readonly string SubmodulePath = Path.Combine(
         AppContext.BaseDirectory, "..", "..", "..", "submodules", "mediator");
 
-    private static readonly Lazy<string> ClaudeSkillContent = new(() =>
-        LoadFileContent(Path.Combine(SubmodulePath, "claude-skill.md")));
+    private static readonly Lazy<string> SkillContent = new(() =>
+        LoadFileContent(Path.Combine(SubmodulePath, "skills", "shiny-mediator", "SKILL.md")));
 
     private static readonly Lazy<string> ReadmeContent = new(() =>
         LoadFileContent(Path.Combine(SubmodulePath, "readme.md")));
-
-    private static readonly Lazy<string> CopilotSkillContent = new(() =>
-        LoadFileContent(Path.Combine(SubmodulePath, "copilot-skill.md")));
 
     private static string LoadFileContent(string path)
     {
@@ -32,7 +29,7 @@ public static class MediatorDocsTool
     private static string GetAllDocumentation()
     {
         var sb = new StringBuilder();
-        sb.AppendLine(ClaudeSkillContent.Value);
+        sb.AppendLine(SkillContent.Value);
         sb.AppendLine();
         sb.AppendLine("---");
         sb.AppendLine();
@@ -41,16 +38,15 @@ public static class MediatorDocsTool
     }
 
     [McpServerTool]
-    [Description("Get the complete Shiny.Mediator documentation from the local repository. Returns the full claude-skill.md and readme.md content.")]
+    [Description("Get the complete Shiny.Mediator documentation from the local repository. Returns the full SKILL.md and readme.md content.")]
     public static string GetMediatorDocs(
-        [Description("Optional: 'full' for all docs, 'skill' for claude-skill.md only, 'readme' for readme.md only. Defaults to 'full'.")]
+        [Description("Optional: 'full' for all docs, 'skill' for SKILL.md only, 'readme' for readme.md only. Defaults to 'full'.")]
         string section = "full")
     {
         return section.ToLowerInvariant() switch
         {
-            "skill" or "claude" or "claude-skill" => ClaudeSkillContent.Value,
+            "skill" => SkillContent.Value,
             "readme" => ReadmeContent.Value,
-            "copilot" or "copilot-skill" => CopilotSkillContent.Value,
             _ => GetAllDocumentation()
         };
     }
@@ -83,10 +79,9 @@ Path: {fullPath}
 ## Usage
 
 Use `GetMediatorDocs(section)` with these options:
-- `full` - Complete documentation (claude-skill.md + readme.md)
-- `skill` or `claude` - Claude skill documentation only
+- `full` - Complete documentation (SKILL.md + readme.md)
+- `skill` - Skill documentation only
 - `readme` - README documentation only
-- `copilot` - Copilot skill documentation
 
 Use `SearchMediatorDocs(searchTerm)` to search across all documentation.
 
@@ -106,9 +101,8 @@ Use `SearchMediatorDocs(searchTerm)` to search across all documentation.
         // Search in all documentation
         var sources = new Dictionary<string, string>
         {
-            ["claude-skill.md"] = ClaudeSkillContent.Value,
-            ["readme.md"] = ReadmeContent.Value,
-            ["copilot-skill.md"] = CopilotSkillContent.Value
+            ["SKILL.md"] = SkillContent.Value,
+            ["readme.md"] = ReadmeContent.Value
         };
 
         foreach (var (source, content) in sources)
@@ -192,7 +186,7 @@ Use `SearchMediatorDocs(searchTerm)` to search across all documentation.
             _ => feature
         };
 
-        var content = ClaudeSkillContent.Value;
+        var content = SkillContent.Value;
         var lines = content.Split('\n');
 
         var codeBlocks = new List<string>();

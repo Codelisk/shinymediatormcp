@@ -4,7 +4,7 @@ Ein Model Context Protocol (MCP) Server, der Dokumentation und Code-Beispiele f�
 
 ## Features
 
-- **GetMediatorDocs** - Dokumentation aus dem lokalen Repository abrufen (claude-skill.md, readme.md)
+- **GetMediatorDocs** - Dokumentation aus dem lokalen Repository abrufen (SKILL.md, readme.md)
 - **ListMediatorTopics** - Alle verfügbaren Dokumentationsdateien auflisten
 - **SearchMediatorDocs** - Suche über die gesamte Dokumentation
 - **GetMediatorExample** - Code-Beispiele für Features aus der Dokumentation extrahieren
@@ -25,9 +25,10 @@ shinymediatormcp/
 │   └── MediatorDocsTool.cs    # MCP Tools Implementation
 └── submodules/
     └── mediator/              # Git Submodule (shinyorg/mediator)
-        ├── claude-skill.md    # Claude Skill Dokumentation
         ├── readme.md          # Repository README
-        ├── copilot-skill.md   # Copilot Skill Dokumentation
+        ├── skills/
+        │   └── shiny-mediator/
+        │       └── SKILL.md   # Skill Dokumentation
         └── src/               # Quellcode
 ```
 
@@ -65,18 +66,20 @@ git commit -m "Update mediator submodule"
 
 ---
 
+> **Hinweis:** Ersetze `<PFAD>` in allen Beispielen mit dem absoluten Pfad zu deinem geklonten Repository.
+
 ## Claude Code
 
 ### Per CLI-Befehl (empfohlen)
 
 ```bash
-claude mcp add shiny-mediator --scope user -- dotnet run --project /home/orderlyze/dev/shinymediatormcp/ShinyMediatorMcp.csproj
+claude mcp add shiny-mediator --scope user -- dotnet run --project <PFAD>/ShinyMediatorMcp.csproj
 ```
 
 ### Per JSON-Befehl
 
 ```bash
-claude mcp add-json shiny-mediator '{"command":"dotnet","args":["run","--project","/home/orderlyze/dev/shinymediatormcp/ShinyMediatorMcp.csproj"]}'
+claude mcp add-json shiny-mediator '{"command":"dotnet","args":["run","--project","<PFAD>/ShinyMediatorMcp.csproj"]}'
 ```
 
 ### Manuell in Konfigurationsdatei
@@ -88,7 +91,7 @@ Füge zu `~/.claude/mcp.json` hinzu:
   "mcpServers": {
     "shiny-mediator": {
       "command": "dotnet",
-      "args": ["run", "--project", "/home/orderlyze/dev/shinymediatormcp/ShinyMediatorMcp.csproj"]
+      "args": ["run", "--project", "<PFAD>/ShinyMediatorMcp.csproj"]
     }
   }
 }
@@ -112,7 +115,7 @@ Oder innerhalb von Claude Code:
 ### Per CLI-Befehl
 
 ```bash
-codex mcp add shiny-mediator -- dotnet run --project /home/orderlyze/dev/shinymediatormcp/ShinyMediatorMcp.csproj
+codex mcp add shiny-mediator -- dotnet run --project <PFAD>/ShinyMediatorMcp.csproj
 ```
 
 ### Manuell in Konfigurationsdatei
@@ -122,7 +125,7 @@ Füge zu `~/.codex/config.toml` hinzu:
 ```toml
 [mcp_servers.shiny-mediator]
 command = "dotnet"
-args = ["run", "--project", "/home/orderlyze/dev/shinymediatormcp/ShinyMediatorMcp.csproj"]
+args = ["run", "--project", "<PFAD>/ShinyMediatorMcp.csproj"]
 ```
 
 ---
@@ -138,7 +141,7 @@ Füge zu `~/.gemini/settings.json` hinzu:
   "mcpServers": {
     "shiny-mediator": {
       "command": "dotnet",
-      "args": ["run", "--project", "/home/orderlyze/dev/shinymediatormcp/ShinyMediatorMcp.csproj"]
+      "args": ["run", "--project", "<PFAD>/ShinyMediatorMcp.csproj"]
     }
   }
 }
@@ -155,7 +158,7 @@ Nach der Installation stehen folgende Tools zur Verfügung:
 ### Dokumentation abrufen
 ```
 GetMediatorDocs("full")      # Komplette Dokumentation
-GetMediatorDocs("skill")     # Nur claude-skill.md
+GetMediatorDocs("skill")     # Nur SKILL.md
 GetMediatorDocs("readme")    # Nur readme.md
 ```
 
